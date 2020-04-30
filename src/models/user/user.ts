@@ -3,12 +3,14 @@ import { Field, ObjectType } from 'type-graphql';
 
 @ObjectType()
 class User extends Typegoose {
+  @Field()
+  public _id?: string;
+
   @prop()
   @Field()
   public username?: string;
 
   @prop()
-  @Field()
   public password?: string;
 }
 

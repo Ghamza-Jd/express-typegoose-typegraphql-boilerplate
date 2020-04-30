@@ -5,13 +5,18 @@ import User, { userModel } from './user';
 
 @Resolver(User)
 export class RegisterResolver {
-  @Query(() => String)
-  helloWorld() {
-    return 'hello world';
+  @Query(() => User)
+  async getUser(@Arg('username') username: string): Promise<User> {
+    let user!: User;
+    await userModel.findOne({ username: username }, (err, res) => {
+      if (err) throw new Error();
+      user = res!;
+    });
+    return user;
   }
 
   @Mutation(() => User)
-  register(@Arg('username') username: string, @Arg('password') password: string): Promise<User> {
+  async register(@Arg('username') username: string, @Arg('password') password: string): Promise<User> {
     const hashedPassword = bcrypt.hashSync(password, 12);
     return new userModel({
       username: username,
