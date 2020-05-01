@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 import bcrypt from 'bcryptjs';
-import User, { userModel } from './user';
+import User, { userModel } from '../models/user/user';
 
 @Resolver(User)
 export class RegisterResolver {

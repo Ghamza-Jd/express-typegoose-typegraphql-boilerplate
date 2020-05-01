@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
-import { RegisterResolver } from './models/user/Register';
+import { RegisterResolver } from './resolvers/register';
 
 export default async function server() {
   const app = express();
