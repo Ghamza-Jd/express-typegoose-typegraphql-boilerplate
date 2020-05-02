@@ -2,13 +2,13 @@ import express from 'express';
 import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
-import { RegisterResolver } from './resolvers/register';
+import { UserResolver } from './modules/user/resolver';
 
 export default async function server() {
   const app = express();
 
   const schema = await buildSchema({
-    resolvers: [RegisterResolver],
+    resolvers: [UserResolver],
   });
   const apolloServer = new ApolloServer({ schema });
 
