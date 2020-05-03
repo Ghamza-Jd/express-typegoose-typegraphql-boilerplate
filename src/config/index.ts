@@ -11,4 +11,5 @@ export default {
     localUrl: String(process.env.MONGO_LOCAL_URL),
     atlasUrl: `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_CLUSTER}/${process.env.MONGO_DATABASE_NAME}?retryWrites=true&w=majority`,
   },
+  secret: String(process.env.SECRET),
 };

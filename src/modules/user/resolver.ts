@@ -1,19 +1,20 @@
 import 'reflect-metadata';
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 import bcrypt from 'bcryptjs';
+
 import User, { userModel } from './User';
 import { RegisterInput } from './input';
 
-@Resolver(User)
+@Resolver()
 export class UserResolver {
-  @Query(() => User)
-  async getUser(@Arg('username') username: string): Promise<User> {
-    let user!: User;
-    await userModel.findOne({ username: username }, (err, res) => {
+  @Query(() => User, { nullable: true })
+  async getUser(@Arg('username') username: string): Promise<User | null> {
+    let user;
+    await userModel.findOne({ where: { username: username } }, (err, res) => {
       if (err) throw new Error();
-      user = res!;
+      user = res;
     });
-    return user;
+    return user ? user : null;
   }
 
   @Mutation(() => User)
@@ -28,3 +29,6 @@ export class UserResolver {
     }).save();
   }
 }
+
+@Resolver()
+export class LoginResolver {}
