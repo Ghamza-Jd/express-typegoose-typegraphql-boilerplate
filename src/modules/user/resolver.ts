@@ -1,14 +1,15 @@
 import 'reflect-metadata';
-import { Arg, Authorized, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import bcrypt from 'bcryptjs';
 
 import User, { userModel } from './User';
 import { RegisterInput } from './input';
 import accessToken from '../../accessToken';
+import Context from '../../context';
 
 @Resolver()
 export class UserResolver {
-  @Authorized()
+  @Authorized('MODERATOR')
   @Query(() => User, { nullable: true, description: 'Query Description' })
   async getUser(@Arg('username', { description: 'Param Description' }) username: string): Promise<User> {
     let user!: User;
@@ -30,6 +31,18 @@ export class UserResolver {
       password: hashedPassword,
       roles,
     }).save();
+  }
+
+  @Authorized()
+  @Query(() => User)
+  async me(@Ctx() ctx: Context) {
+    let user!: User;
+    const currentUser = accessToken.validateAccessToken(ctx.req.headers.authorization);
+    await userModel.findOne({ username: currentUser?.username }, (err, res) => {
+      if (err) throw new Error();
+      user = res!;
+    });
+    return user;
   }
 }
 
