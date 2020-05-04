@@ -2,17 +2,15 @@ import express from 'express';
 import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
-import { authChecker } from './authChecker';
-import jwt from 'express-jwt';
+import { authChecker } from './auth-checker';
 
-import { UserResolver } from './modules/user/resolver';
-import config from './config';
+import { LoginResolver, UserResolver } from './modules/user/resolver';
 
 export default async function server() {
   const app = express();
 
   const schema = await buildSchema({
-    resolvers: [UserResolver],
+    resolvers: [UserResolver, LoginResolver],
     authChecker: authChecker,
     authMode: 'null',
   });
@@ -20,7 +18,6 @@ export default async function server() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cors());
-  app.use('/graphql', jwt({ secret: config.secret, credentialsRequired: false }));
 
   const apolloServer = new ApolloServer({
     schema,

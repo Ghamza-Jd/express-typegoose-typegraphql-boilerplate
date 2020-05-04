@@ -11,23 +11,29 @@
     "lint": "yarn run lint:js",
     "lint:eslint": "eslint --ignore-path .gitignore --ext .ts",
     "lint:js": "yarn run lint:eslint src/",
-    "lint:fix": "yarn run lint:js --fix"
+    "lint:fix": "yarn run lint:js --fix",
+    "docs": "graphdoc -f",
+    "about:docs": "yarn run -s about:docs:msg",
+    "about:docs:msg": "echo $npm_package_about_docs"
   },
   "author": "Hamza Jadid",
   "repository": {
     "type": "git",
     "url": "https://github.com/HamzaJadid/express-typegoose-typegraphql-boilerplate.git"
   },
+  "about": {
+    "docs": "To generate the docs you should download graphdoc globally\n> npm i -g graphdoc\nStart the server in dev mode then run graphdoc\n> yarn run dev\n> yarn docs"
+  },
   "license": "MIT",
   "dependencies": {
     "@typegoose/typegoose": "^7.0.0",
+    "@types/jsonwebtoken": "^8.3.9",
     "apollo-server-express": "^2.12.0",
     "bcryptjs": "^2.4.3",
     "class-validator": "^0.12.2",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-jwt": "^5.3.3",
     "graphql": "^14.1.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.10",
@@ -52,5 +58,9 @@
     "ts-node-dev": "^1.0.0-pre.44",
     "tslint": "^6.1.2",
     "typescript": "^3.8.3"
+  },
+  "graphdoc": {
+    "endpoint": "http://localhost:3001/graphql",
+    "output": "./docs/schema"
   }
 }

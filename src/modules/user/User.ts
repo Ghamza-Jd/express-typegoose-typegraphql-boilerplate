@@ -25,6 +25,10 @@ class User {
   @prop()
   public password!: string;
 
+  @prop()
+  @Field(() => [String], { nullable: false })
+  public roles!: string[];
+
   @Field()
   fullName(@Root() parent: User): string {
     return `${parent.firstName} ${parent.lastName}`;
