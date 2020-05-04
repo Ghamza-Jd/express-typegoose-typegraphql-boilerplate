@@ -21,7 +21,7 @@ export default async function server() {
 
   const apolloServer = new ApolloServer({
     schema,
-    context: ({ req }) => ({ req }),
+    context: ({ req, res }) => ({ req, res }),
     playground: process.env.NODE_ENV !== 'production',
   });
 

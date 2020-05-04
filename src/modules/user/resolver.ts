@@ -1,10 +1,9 @@
 import 'reflect-metadata';
-import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Authorized, Mutation, Query, Resolver } from 'type-graphql';
 import bcrypt from 'bcryptjs';
 
 import User, { userModel } from './User';
 import { RegisterInput } from './input';
-import Context from '../../Context';
 import accessToken from '../../accessToken';
 
 @Resolver()
@@ -36,12 +35,8 @@ export class UserResolver {
 
 @Resolver()
 export class LoginResolver {
-  @Mutation(() => String)
-  async login(
-    @Arg('username') username: string,
-    @Arg('password') password: string,
-    @Ctx() ctx: Context,
-  ): Promise<String | null> {
+  @Mutation(() => String, { description: 'Requesting an access token by Logging in' })
+  async login(@Arg('password') password: string, @Arg('username') username: string): Promise<String | null> {
     let user!: User;
     await userModel.findOne({ username: username }, (err, res) => {
       if (err) throw new Error();
@@ -50,8 +45,6 @@ export class LoginResolver {
     if (!user) return null;
     const valid = bcrypt.compareSync(password, user.password);
     if (!valid) return null;
-    const token = accessToken.generateAccessToken(username);
-    ctx.token = token;
-    return token;
+    return accessToken.generateAccessToken(user);
   }
 }
