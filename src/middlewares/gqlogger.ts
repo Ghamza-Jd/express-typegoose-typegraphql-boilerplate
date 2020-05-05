@@ -21,7 +21,7 @@ morgan.token('graphql-query', (req, res) => {
   return `\ngql_ogger:\nStatus: ${res.statusCode}\nQuery: ${formattedQuery}\b`;
 });
 
-export const gqlogger = (options: IOptions): RequestHandler => {
+export const logger = (options: IOptions): RequestHandler => {
   loggingOptions = options;
   return morgan(':graphql-query', {
     // Ignore schema pulling requests sent by graphql playground

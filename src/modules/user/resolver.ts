@@ -1,12 +1,11 @@
 import 'reflect-metadata';
-import { Arg, Authorized, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import bcrypt from 'bcryptjs';
 
 import User, { userModel } from './User';
 import { RegisterInput } from './input';
 import accessToken from '../../accessToken';
 import Context from '../../context';
-import { timeLogger } from '../../middlewares/timeLogger';
 
 @Resolver()
 export class UserResolver {
@@ -21,7 +20,6 @@ export class UserResolver {
     return user;
   }
 
-  @UseMiddleware(timeLogger)
   @Mutation(() => User)
   async register(@Arg('data') { firstName, lastName, username, email, password, roles }: RegisterInput): Promise<User> {
     const hashedPassword = bcrypt.hashSync(password, 12);
