@@ -7,7 +7,7 @@ import { authChecker } from './auth-checker';
 import { LoginResolver, UserResolver } from './modules/user/resolver';
 import { gqlogger } from './middlewares/gqlogger';
 
-export default async function server() {
+export default async () => {
   const app = express();
 
   const schema = await buildSchema({
@@ -16,7 +16,7 @@ export default async function server() {
     authMode: 'null',
   });
 
-  app.use(gqlogger());
+  app.use(gqlogger({ jsonLogging: true }));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cors());
@@ -29,4 +29,4 @@ export default async function server() {
   apolloServer.applyMiddleware({ app, path: '/graphql' });
 
   return app;
-}
+};
