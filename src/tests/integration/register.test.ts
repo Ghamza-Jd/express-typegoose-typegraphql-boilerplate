@@ -2,7 +2,7 @@ import faker from 'faker';
 
 import { userModel } from '../../modules/user/User';
 import { gqlCall } from './integration.util';
-import { RegisterInput } from '../../modules/user/input';
+import { RegisterInput } from '../../modules/user/user.input';
 
 const REGISTER_MUTATION = `
 mutation Register($data: RegisterInput!) {

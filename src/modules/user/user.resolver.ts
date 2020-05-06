@@ -3,7 +3,7 @@ import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import bcrypt from 'bcryptjs';
 
 import User, { userModel } from './User';
-import { RegisterInput } from './input';
+import { RegisterInput } from './user.input';
 import accessToken from '../../accessToken';
 import Context from '../../context';
 
