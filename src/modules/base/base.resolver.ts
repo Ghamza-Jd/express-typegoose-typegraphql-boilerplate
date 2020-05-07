@@ -17,8 +17,18 @@ function baseResolver<T extends ClassType, S extends ClassType>(
     async getAll() {
       return modelType.find();
     }
+    @Mutation(() => returnType, { name: `delete${suffix}` })
+    async delete(@Arg('id', () => String) id: string) {
+      const model = await modelType.findById(id);
+      await modelType.deleteOne({ _id: id });
+      return model;
+    }
+    @Mutation(() => returnType, { name: `update${suffix}` })
+    async update(@Arg('id', () => String) id: string, @Arg('data', () => inputType) data: any) {
+      await modelType.updateOne({ _id: id }, data);
+      return await modelType.findById(id);
+    }
   }
-
   return BaseResolver;
 }
 
